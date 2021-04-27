@@ -15,7 +15,7 @@ The file will be named `crossword_stats_yyyy_mm_dd.csv`
 <br>
 **score.secondsSpentSolving**: seconds (in whole numbers) taken to complete the crossword
 <br>
-**date**: date in which data was collected. NOTE this may **not** be the date of the Mini Crossword, as it resets at 10pm EST. 
+**date**: date in which data was collected. NOTE this may **not** be the date of the Mini Crossword, as it resets at 10pm EST. Therefore, if this script is run between 10:00-11:59pm EST, it will collect the following day's times.  
 <br>
 **rank**: rank (1 = fastest time) relative to others on the leaderboard
 <br>
