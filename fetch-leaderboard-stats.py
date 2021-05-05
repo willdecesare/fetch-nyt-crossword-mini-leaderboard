@@ -3,6 +3,14 @@ import requests
 import json
 import pandas as pd
 import datetime as dt
+from dateutil import tz
+
+from_zone = tz.gettz('UTC')
+to_zone = tz.gettz('America/New_York')
+utc = dt.datetime.utcnow().replace(tzinfo=from_zone)
+est = utc.astimezone(to_zone)
+
+today = est.date()
 
 API_ROOT = 'https://nyt-games-prd.appspot.com/svc/crosswords'
 LEADERBOARD_INFO = API_ROOT + '/v6/leaderboard/mini.json'
@@ -60,7 +68,7 @@ def get_leaderboard_stats(cookie):
         import sys
         sys.exit(1)     # exit program
     df = df[['name', 'score.secondsSpentSolving']]
-    df['date'] = dt.datetime.now().date()
+    df['date'] = today
     df['rank'] = df['score.secondsSpentSolving'].rank(method='min').astype(int)
     df['points'] = df['score.secondsSpentSolving'].rank(method='min', ascending = False).astype(int)
     return df
@@ -69,4 +77,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
     cookie = login(args.username, args.password)
     df = get_leaderboard_stats(cookie)
-    df.to_csv('{}/crossword_stats_{}.csv'.format(args.working_directory, dt.datetime.now().date()))
+    df.to_csv('{}/crossword_stats_{}.csv'.format(args.working_directory, today))
